@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Prediction</title>
+</head>
+<body>
+    <h2>Customer Prediction</h2>
+    <form action="/predict" method="post">
+        <label for="age">Age:</label><br>
+        <input type="text" id="age" name="age"><br>
+        <label for="annual_income">Annual Income:</label><br>
+        <input type="text" id="annual_income" name="annual_income"><br>
+        <label for="spending_score">Spending Score:</label><br>
+        <input type="text" id="spending_score" name="spending_score"><br><br>
+        <input type="submit" value="Predict">
+    </form>
+    {% if prediction_text %}
+        <h3>{{ prediction_text }}</h3>
+    {% endif %}
+</body>
+</html>
