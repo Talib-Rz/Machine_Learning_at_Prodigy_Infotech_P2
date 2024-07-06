@@ -25,9 +25,9 @@ def predict_customer_class(age, annual_income, spending_score):
         return f"Unexpected prediction value: {prediction[0]}, Customers are mediocre, sometimes they will buy.. sometimes they won't"
 
 # Streamlit input widgets
-age = st.number_input("Age", min_value=0, max_value=120, value=30)
-annual_income = st.number_input("Annual Income (k$)", min_value=0, max_value=1000, value=50)
-spending_score = st.number_input("Spending Score (1-100)", min_value=1, max_value=100, value=50)
+age = st.number_input("Age", min_value=0, max_value=120, value=25)
+annual_income = st.number_input("Annual Income (k$)", min_value=0, max_value=1000, value=100)
+spending_score = st.number_input("Spending Score (1-100)", min_value=1, max_value=100, value=80)
 
 # Prediction button
 if st.button("Predict"):
