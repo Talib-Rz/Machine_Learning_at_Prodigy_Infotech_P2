@@ -12,8 +12,11 @@ st.title("Customer Classification Prediction")
 def predict_customer_class(age, annual_income, spending_score):
     feature_names = ['Age', 'Annual Income (k$)', 'Spending Score (1-100)']
     input_data = pd.DataFrame([[age, annual_income, spending_score]], columns=feature_names)
-    prediction = model.predict(input_data)
     
+    # Make prediction and add debug information
+    prediction = model.predict(input_data)
+    st.write(f"Debug: Model prediction raw output: {prediction}")
+
     if prediction[0] == 1:
         return "Good Customer for Life_Time"
     elif prediction[0] == 2:
@@ -21,7 +24,7 @@ def predict_customer_class(age, annual_income, spending_score):
     elif prediction[0] == 0:
         return "Customers are mediocre, sometimes they will buy.. sometimes they won't"
     else:
-        return "Unexpected prediction value."
+        return f"Unexpected prediction value: {prediction[0]}"
 
 # Streamlit input widgets
 age = st.number_input("Age", min_value=0, max_value=120, value=30)
@@ -35,3 +38,6 @@ if st.button("Predict"):
         st.success(result)
     except Exception as e:
         st.error(f"An error occurred: {e}")
+
+# To run this app, save the code in a file named `app.py` and run the following command:
+# streamlit run app.py
