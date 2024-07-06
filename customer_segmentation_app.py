@@ -21,10 +21,8 @@ def predict_customer_class(age, annual_income, spending_score):
         return "Good Customer for Life_Time"
     elif prediction[0] == 2:
         return "Customers, They need more attention"
-    elif prediction[0] == 0:
-        return "Customers are mediocre, sometimes they will buy.. sometimes they won't"
     else:
-        return f"Unexpected prediction value: {prediction[0]}"
+        return f"Unexpected prediction value: {prediction[0]}, Customers are mediocre, sometimes they will buy.. sometimes they won't"
 
 # Streamlit input widgets
 age = st.number_input("Age", min_value=0, max_value=120, value=30)
