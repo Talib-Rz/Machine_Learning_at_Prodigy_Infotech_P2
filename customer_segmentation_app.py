@@ -15,7 +15,7 @@ def predict_customer_class(age, annual_income, spending_score):
     
     # Make prediction and add debug information
     prediction = model.predict(input_data)
-    st.write("Model prediction raw output: {prediction}")
+    st.write(f"Model prediction raw output: {prediction}")
 
     if prediction[0] == 1:
         return "Good Customer for Life_Time"
