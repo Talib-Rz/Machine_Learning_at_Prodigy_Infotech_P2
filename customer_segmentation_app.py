@@ -1,44 +1,37 @@
-from flask import Flask, request, render_template
-import numpy as np
+import streamlit as st
 import pandas as pd
 import joblib
-
-app = Flask(__name__)
 
 # Load the trained model
 with open('DecisionTreeClassifier_model.pkl', 'rb') as model_file:
     model = joblib.load(model_file)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+st.title("Customer Classification Prediction")
 
-@app.route('/predict', methods=['POST'])
-def predict():
+# Function to make prediction
+def predict_customer_class(age, annual_income, spending_score):
+    feature_names = ['Age', 'Annual Income (k$)', 'Spending Score (1-100)']
+    input_data = pd.DataFrame([[age, annual_income, spending_score]], columns=feature_names)
+    prediction = model.predict(input_data)
+    
+    if prediction[0] == 1:
+        return "Good Customer for Life_Time"
+    elif prediction[0] == 2:
+        return "Customers, They need more attention"
+    elif prediction[0] == 0:
+        return "Customers are mediocre, sometimes they will buy.. sometimes they won't"
+    else:
+        return "Unexpected prediction value."
+
+# Streamlit input widgets
+age = st.number_input("Age", min_value=0, max_value=120, value=30)
+annual_income = st.number_input("Annual Income (k$)", min_value=0, max_value=1000, value=50)
+spending_score = st.number_input("Spending Score (1-100)", min_value=1, max_value=100, value=50)
+
+# Prediction button
+if st.button("Predict"):
     try:
-        age = int(request.form['age'])
-        annual_income = int(request.form['annual_income'])
-        spending_score = int(request.form['spending_score'])
-
-        # Create a DataFrame with the feature names
-        feature_names = ['Age', 'Annual Income (k$)', 'Spending Score (1-100)']
-        input_data = pd.DataFrame([[age, annual_income, spending_score]], columns=feature_names)
-
-        # Make prediction
-        prediction = model.predict(input_data)
-
-        if prediction[0] == 1:
-            result = "Good Customer for Life_Time"
-        elif prediction[0] == 2:
-            result = "Customers, They need more attention"
-        elif prediction[0] == 0:
-            result = "Customers are mediocre, sometimes they will buy.. sometimes they won't"
-        else:
-            result = "Unexpected prediction value."
-
-        return render_template('index.html', prediction_text=result)
+        result = predict_customer_class(age, annual_income, spending_score)
+        st.success(result)
     except Exception as e:
-        return render_template('index.html', prediction_text="An error occurred: {}".format(e))
-
-if __name__ == "__main__":
-    app.run(debug=True)
+        st.error(f"An error occurred: {e}")
